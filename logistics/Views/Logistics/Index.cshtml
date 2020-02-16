@@ -1,0 +1,60 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link rel="stylesheet" type="text/css" href="css\flowplugin.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="js\flowplugin.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btn").click(function () {
+                debugger;
+                var list = {};
+                $.ajax({
+                    url: "/Logistics/queryInformation",
+                    datetype: JSON,
+                    data: "Number=" + $("#Num").val(),
+                    async: false,
+                    success: function (result) {
+                        debugger;
+                        if (result.response.data == null)
+                            alert("未查询出任何结果!");
+                        else
+                            list = result.response;
+                    }
+                });
+                $(".flowtest").empty();
+                var opt = {
+                    "jsonDate": list,//json数据
+                    "imgSrcStart": "img/f1.png",//最新流程节点图片（第一个节点）
+                    "imgSrcOther": "img/f2.png",//其它流程节点图片
+                    "imgWidth": "20px",//图片宽  设置第一个图片的宽度
+                    "imgHeight": "20px"//图片高  设置第一个图片的高度
+                };
+
+                $(".flowtest").flowplugin(opt);
+            });
+        });
+    </script>
+</head>
+<body>
+    <div style="text-align:center;margin-top:100px;margin-bottom:-150px">
+        <span style="font-size:20px;">快递单号：</span><input style="border:1px solid black;width:300px;height:35px" id="Num" />
+        <span style="position:relative;top:2px;"><button style="width:60px;height:36px;font-size:20px;border:1px solid black" id="btn">查询</button></span>
+    </div>
+    <div style="height:270px;"></div>
+
+    <!--流程展示区 start-->
+    <div class="flowtest"></div>
+    <!--流程展示区 start-->
+
+
+</body>
+</html>
